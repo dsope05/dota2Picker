@@ -5,3 +5,120 @@
   flex-direction: column;
   align-items: center;
 }
+
+.heroMetaContainer {
+  border: 1px solid black;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+}
+
+.heroMetaInput {
+  margin-bottom: 10px;
+
+}
+
+.heroMetaMain {
+  width: 100%;
+}
+
+.int {
+  color: #87CEEB;
+
+}
+
+.str {
+  color: #9c3627;
+}
+
+.agi {
+  color: #3CB371;
+}
+
+.greenCircle {
+  background-color: #3CB371;
+  color: #3CB371;
+  height: 15px;
+  width: 15px;
+  border-radius: 30px;
+  position: absolute;
+  margin-left: 40px;
+}
+.redCircle {
+  background-color: #9c3627;
+  color: #9c3627;
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  left: 450px;
+  margin-left: 10px;
+  border-radius: 30px;
+}
+.blueCircle {
+  background-color: #87CEEB;
+  color: #87CEEB;
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  margin-left: 10px;
+  left: 330px;
+  border-radius: 30px;
+}
+
+.legend {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  margin-left: 10px;
+}
+
+.legendWords {
+  position: relative;
+  left: 22px;
+  bottom: 3px;
+}
+
+.lastUpdated {
+  margin-bottom: 10px;
+}
+
+.searchMatch {
+  font-weight: bold;
+  color: red;
+}
+
+.colOne {
+  grid-column: 1;
+}
+
+.colTwo {
+  grid-column: 2;
+}
+
+.colThree {
+  grid-column: 3;
+}
+.colFour {
+  grid-column: 4;
+}
+
+.homeLink:hover,
+.homeLink:focus,
+.homeLink:active {
+  color: #0070f3;
+}
+
+.homeLink {
+  text-decoration: none;
+  color: black;
+}
+
+.selectHero {
+  cursor: pointer;
+}
+
+.span{
+  margin-right: 4px;;
+}
