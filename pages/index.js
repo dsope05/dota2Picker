@@ -36,18 +36,6 @@ export default function Home() {
             <h3>Item Build&rarr;</h3>
             <p>See what items are most popular on your hero in the pro meta</p>
           </a>
-
-          <Link href="/heroPerformance">
-            <a
-              href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              className="card"
-            >
-              <h3> Hero Performance &rarr;</h3>
-              <p>
-                Get hero performance over a range of match durations
-              </p>
-            </a>
-          </Link>
         </div>
       </main>
 

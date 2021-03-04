@@ -5,6 +5,7 @@ import moment from 'moment';
 import Link from 'next/link';
 import Chart from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import BeatLoader from 'react-spinners/BeatLoader';
 
 
 const HeroMeta = () => {
@@ -12,6 +13,7 @@ const HeroMeta = () => {
   const [lastUpdated, updateLastUpdated] = useState(null);
   const [searchText, updateSearchText] = useState('');
   const [selectedHero, selectHero] = useState('');
+  const [heroPerformance, updateHeroPerformance] = useState([]);
   useEffect(() => {
     fetch('http://localhost:3015/heroMeta')
       .then((res) => res.json())
@@ -20,6 +22,19 @@ const HeroMeta = () => {
         updateLastUpdated(res.heroMetaLastUpdated);
       })
   }, []);
+  console.log('heroMeta', heroMeta)
+  const getHeroPerformance = (heroId) => {
+    fetch(`http://localhost:3015/heroPerformance?heroId=${heroId}`)
+      .then((res) => res.json())
+      .then((res) => {
+        console.log('res0', res)
+        updateHeroPerformance(res.heroPerformance);
+      })
+  }
+const heroPerformanceStats = heroPerformance.map((stat) => {
+  return { duration: stat.duration_bin / 60, winRate: stat.wins/stat.games_played }
+}).sort((a, b) => a.duration - b.duration);
+console.log('heroPerf', heroPerformance.length > 0)
   return (
     <div className={style.container}>
       <main className={style.heroMetaMain}>
@@ -38,6 +53,7 @@ const HeroMeta = () => {
                 onClick={() => {
                   selectHero('')
                   updateSearchText('')
+                  updateHeroPerformance([])
                 }}
                 className={style.homeLink}>
                 Hero Meta { " " }
@@ -57,9 +73,6 @@ const HeroMeta = () => {
         </h1>
         { !selectedHero ? (
           <React.Fragment>
-            <h3>
-              Hero win rates from recent Legend, Ancient, Divine, and Immortal games
-            </h3>
             <div className={ style.lastUpdated }>
               Last Updated: { moment(lastUpdated).format('MMMM Do YYYY, h:mm:ss a')}
             </div>
@@ -77,13 +90,17 @@ const HeroMeta = () => {
                     }
                     return acc;
                   }, [])
+                  console.log('filteredheroes0 keyx', filteredHeroes)
                   if (filteredHeroes.length > 0) {
+                    console.log('filteredheroes0 key', filteredHeroes[0].name)
                     selectHero(filteredHeroes[0].name);
+                    getHeroPerformance(filteredHeroes[0].heroId);
                   }
               }}}
             />
             <button
               onClick={() => {
+                console.log('onclick', heroMeta)
                 let filteredHeroes = [];
                   filteredHeroes = heroMeta.reduce((acc, cur) => {
                     if (cur.name.toLowerCase().includes(searchText)) {
@@ -91,8 +108,11 @@ const HeroMeta = () => {
                     }
                     return acc;
                   }, [])
+                  console.log('filteredheroes0 button', filteredHeroes)
                   if (filteredHeroes.length > 0) {
+                    console.log('filteredheroes0 button', filteredHeroes[0].name)
                     selectHero(filteredHeroes[0].name);
+                    getHeroPerformance(filteredHeroes[0].heroId);
                   }
               }}
             >
@@ -134,6 +154,7 @@ const HeroMeta = () => {
                   <div
                     onClick={() => {
                       selectHero(hero.name)
+                      getHeroPerformance(hero.heroId);
                     }}
                     key={hero.name}
                     className={`${searchMatch ? style.searchMatch : style[hero.primaryAttr]} ${style.selectHero}`}
@@ -149,47 +170,62 @@ const HeroMeta = () => {
           </React.Fragment>
           ) : (
             <div>
-              <h3>
-                { selectedHero } win rate (y-axis) vs. game duration (x-axis)
-              </h3>
-              <Line
-                data={{
-                  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                  datasets: [{
-                  label: '# of Votes',
-                  data: [12, 19, 3, 5, 2, 3],
-                  backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                  ],
-                  borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                  ],
-                  borderWidth: 1
-                }]
-            }}
-            options={{
-              scales: {
-              yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-              }]
-              },
-              maintainAspectRatio: false
-            }}
-             width={100}
-             height={50}
-            />
+              { !heroPerformance.length ? (
+                <div className={style.loader}>
+                  <BeatLoader color="#36D7B7" loading={true} css="" size={30} />
+                </div>
+              ) : (
+                <Line
+                  data={{
+                    labels: heroPerformanceStats.map((data) => data.duration),
+                    datasets: [{
+                      label: '# of Votes',
+                      data: heroPerformanceStats.map((stat) => {
+                        return stat.winRate * 100;
+                      }),
+                      backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                      ],
+                      borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                      ],
+                      borderWidth: 1
+                    }]
+                  }}
+                  options={{
+                    scales: {
+                      yAxes: [{
+                        scaleLabel: {
+                           display: true,
+                          labelString: 'Win %'
+                        },
+                        ticks: {
+                          beginAtZero: true
+                        }
+                      }],
+                      xAxes: [{
+                        scaleLabel: {
+                           display: true,
+                           labelString: 'Game Length (minutes)'
+                        },
+                      }]
+                    },
+                    maintainAspectRatio: false
+                  }}
+                  width={500}
+                  height={350}
+                />
+              )}
             </div>
             )
         }
