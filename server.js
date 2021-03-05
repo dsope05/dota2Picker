@@ -6,9 +6,11 @@ const fetch = require('node-fetch');
 
 app.use(cors())
 
-app.listen('3015', () => { 
-  console.log('listening on 3015');
-});
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 3015;
+}
+app.listen(port);
 
 const store = {
   allHeroStats: [],
@@ -65,3 +67,11 @@ app.get('/heroPerformance', (req, res) => {
     return res.send({ heroPerformance: store.calculated.heroPerformance[req.query.heroId]})
   }
 })
+
+// For heroku deployment
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
