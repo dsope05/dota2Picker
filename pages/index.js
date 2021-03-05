@@ -15,7 +15,7 @@ export default function Home() {
           </h1>
 
         <div className="grid">
-          <Link href="/picker">
+          <Link href="/heroPicker">
             <a className="card">
               <h3> Hero Picker &rarr;</h3>
               <p> Find the best hero based on enemy matchups.</p>

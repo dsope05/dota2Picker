@@ -1,0 +1,176 @@
+.container {
+  min-height: 100vh;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.heroMetaContainer {
+  border: 1px solid black;
+  padding: 5px;
+  border-radius: 5px;
+  width: 200px;
+  display: grid;
+  grid-template-columns: auto;
+}
+
+.heroMetaInput {
+  margin-bottom: 10px;
+
+}
+
+.heroMetaMain {
+  width: 100%;
+}
+
+.int {
+  color: #87CEEB;
+
+}
+
+.str {
+  color: #9c3627;
+}
+
+.agi {
+  color: #3CB371;
+}
+
+.greenCircle {
+  background-color: #3CB371;
+  color: #3CB371;
+  height: 15px;
+  width: 15px;
+  border-radius: 30px;
+  position: absolute;
+}
+.redCircle {
+  background-color: #9c3627;
+  color: #9c3627;
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  left: 185px;
+  margin-left: 10px;
+  border-radius: 30px;
+}
+.blueCircle {
+  background-color: #87CEEB;
+  color: #87CEEB;
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  margin-left: 10px;
+  left: 79px;
+  border-radius: 30px;
+}
+
+.legend {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  margin-left: 10px;
+}
+
+.legendary {
+  height: 30px;
+}
+
+.legendWords {
+  position: relative;
+  left: 22px;
+  bottom: 3px;
+}
+
+.lastUpdated {
+  margin-bottom: 10px;
+}
+
+.searchMatch {
+  font-weight: bold;
+  color: red;
+}
+
+.colOne {
+  grid-column: 1;
+}
+
+.colTwo {
+  grid-column: 2;
+}
+
+.colThree {
+  grid-column: 3;
+}
+.colFour {
+  grid-column: 4;
+}
+
+.homeLink:hover,
+.homeLink:focus,
+.homeLink:active {
+  color: #0070f3;
+}
+
+.homeLink {
+  text-decoration: none;
+  color: black;
+}
+
+.selectHero {
+  cursor: pointer;
+}
+
+.span{
+  margin-right: 4px;;
+}
+
+.loader {
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.panels {
+  display: flex;
+}
+
+.leftPanel {
+  width: 20%;
+  border-right: 1px black solid;
+  padding-right: 10px;
+}
+
+.midPanel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-left: 45px;
+  height: 118px;
+}
+
+.rightPanel {
+  border-top: 1px black solid;
+  display: flex;
+  flex-direction: column;
+  padding-left: 35px;
+  margin-left: 13px;
+}
+
+.rightPanelParent {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+}
+
+.selectedEnemies {
+  cursor: pointer;
+  display: flex;
+}
+
+.selectedEnemy {
+  margin-left: 10px;
+}
+

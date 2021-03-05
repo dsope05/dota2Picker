@@ -18,6 +18,7 @@ const store = {
     heroMeta: [],
     heroMetaLastUpdated: null,
     heroPerformance: {},
+    heroMatchups: {},
   }
 };
 
@@ -65,6 +66,21 @@ app.get('/heroPerformance', (req, res) => {
   } else {
     console.log('outside perf data', store.calculated.heroPerformance[req.query.heroId])
     return res.send({ heroPerformance: store.calculated.heroPerformance[req.query.heroId]})
+  }
+})
+
+app.get('/heroMatchups', (req, res) => {
+  if (!store.calculated.heroMatchups[req.query.heroId]) {
+    fetch(`https://api.opendota.com/api/heroes/${req.query.heroId}/matchups`).then((res) => {
+      return res.json()
+    }).then((data) => {
+      console.log('new matchup data', data)
+      store.calculated.heroMatchups[req.query.heroId] = data;
+      res.send({ heroMatchups: store.calculated.heroMatchups[req.query.heroId]})
+    }).catch((err) => console.log('err', err));
+  } else {
+    console.log('outside matchup data', store.calculated.heroMatchups[req.query.heroId])
+    return res.send({ heroMatchups: store.calculated.heroMatchups[req.query.heroId]})
   }
 })
 
